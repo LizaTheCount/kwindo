@@ -1,7 +1,6 @@
 package com.kwindo;
 
 import java.io.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -21,7 +20,7 @@ public class KwindoAlgorithmRunner {
         KwindoAlgorithmRunner runner = new KwindoAlgorithmRunner();
 
         System.out.println("Total profit: " +
-                runner.runAlgorithm(new SlopeDependentStockAlgorithm(), datadir)
+                runner.runAlgorithm(new FlatAlgorithm(), datadir)
         );
         
     }
