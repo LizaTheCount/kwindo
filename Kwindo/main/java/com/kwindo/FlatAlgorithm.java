@@ -3,7 +3,7 @@ package com.kwindo;
 /**
  * Created by Sijmen on 13-5-2017.
  */
-public class SlopeDependentStockAlgorithm extends KwindoAlgorithm {
+public class FlatAlgorithm extends KwindoAlgorithm {
     
     float prevStockLevel;
 
