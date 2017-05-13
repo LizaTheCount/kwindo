@@ -5,12 +5,12 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Created by Sijmen on 13-5-2017.
  */
-public class KwindoAlgorithm {
+public abstract class KwindoAlgorithm {
     
     final static int SECONDSINDAY = 30600;
     
     int secondCounter = 0;
-    int amountOfStock = 0;
+    int ourStock = 0;
     
     public float profit = 0;
     
@@ -24,25 +24,28 @@ public class KwindoAlgorithm {
     public int processSecond(float stockLevel){
         secondCounter++;
         
-        if(dayEnd())
+        if(dayEnd()) {
+//            System.out.println("End of day profit: " + profit);
+//            System.out.println("End of day our stock: " + ourStock);
             return sellbuyTo0(stockLevel);
-        
-        return randomStockAlgorithm(stockLevel);
-    }
+        }
+        int result = runAlgorithm(stockLevel);
 
-    private int randomStockAlgorithm(float stockLevel) {
-        int stockBuySellAmount = ThreadLocalRandom.current().nextInt(-10, 11);
-        int futureStocks = stockBuySellAmount + amountOfStock;
+        int futureStocks = result + ourStock;
         if(futureStocks > 100 || futureStocks < -100)
             return 0;
-        amountOfStock = futureStocks;
-        updateProfilt(stockBuySellAmount, stockLevel);
-        return stockBuySellAmount;
+        
+        updateProfilt(result, stockLevel);
+        ourStock += result;
+        
+        return result;
     }
 
+    abstract int runAlgorithm(float stockLevel);
+
     private int sellbuyTo0(float stockLevel) {
-        int result = 0 - amountOfStock;
-        amountOfStock+=result;
+        int result = 0 - ourStock;
+        ourStock +=result;
 
         updateProfilt(result, stockLevel);
         return result;

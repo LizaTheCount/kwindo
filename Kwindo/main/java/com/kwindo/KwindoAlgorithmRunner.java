@@ -17,13 +17,18 @@ public class KwindoAlgorithmRunner {
             throw new IllegalArgumentException("Must supply data directory");
         File datadir = new File(args[0]);
         
-        new KwindoAlgorithmRunner().runAlgorithm(datadir);
-    }
+        
+        KwindoAlgorithmRunner runner = new KwindoAlgorithmRunner();
 
-    KwindoAlgorithm algorithm;
+        System.out.println("Total profit: " +
+                runner.runAlgorithm(new SlopeDependentStockAlgorithm(), datadir)
+        );
+        
+    }
     
-    private void runAlgorithm(File datadir) {
-        algorithm = new KwindoAlgorithm();
+    private KwindoAlgorithm algorithm;
+    private float runAlgorithm(KwindoAlgorithm algorithm, File datadir) {
+        this.algorithm = algorithm;
         File[] datafiles = datadir.listFiles();
         if(datafiles == null)
             throw new IllegalArgumentException("Datafiles not found!");
@@ -32,7 +37,7 @@ public class KwindoAlgorithmRunner {
                 .sorted(fileCom)
                 .filter(f -> f.getName().endsWith("prices.csv"))
                 .forEach(this::handleFile);
-        System.out.println("Total Profit: " + algorithm.profit);
+        return algorithm.profit;
     }
     
     private void handleFile(File file) {
