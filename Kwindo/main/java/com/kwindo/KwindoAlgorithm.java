@@ -1,7 +1,5 @@
 package com.kwindo;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * Created by Sijmen on 13-5-2017.
  */
@@ -32,8 +30,10 @@ public abstract class KwindoAlgorithm {
         int result = runAlgorithm(stockLevel);
 
         int futureStocks = result + ourStock;
-        if(futureStocks > 100 || futureStocks < -100)
-            return 0;
+        if(futureStocks > 100) 
+            result = 100 - ourStock;
+        if(futureStocks < -100)
+            result = (100 + ourStock)*-1;
         
         updateProfilt(result, stockLevel);
         ourStock += result;

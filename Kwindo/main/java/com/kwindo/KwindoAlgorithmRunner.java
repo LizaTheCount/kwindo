@@ -16,11 +16,10 @@ public class KwindoAlgorithmRunner {
             throw new IllegalArgumentException("Must supply data directory");
         File datadir = new File(args[0]);
         
-        
         KwindoAlgorithmRunner runner = new KwindoAlgorithmRunner();
-        
+
         System.out.println("Total profit: " +
-                runner.runAlgorithm(new FlatAlgorithm(), datadir)
+                runner.runAlgorithm(new FlatAlgorithm(100), datadir)
         );
         
     }
@@ -66,10 +65,8 @@ public class KwindoAlgorithmRunner {
         if(line == null || line.startsWith("times,price") || line.trim().isEmpty())
             return;
         String[] split = line.split(",");
-        Integer result = algorithm.processSecond(Float.parseFloat(split[1]));
-        
-        if(result != null)
-            fw.write(split[0] + "," + (float)result  + "\n");
+        int result = algorithm.processSecond(Float.parseFloat(split[1]));
+        fw.write(split[0] + "," + (float)result  + "\n");
     }
 
     private Comparator<File> fileCom = new Comparator<File>() {
