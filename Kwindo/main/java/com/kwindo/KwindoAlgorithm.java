@@ -1,6 +1,7 @@
 package com.kwindo;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Sijmen on 13-5-2017.
@@ -20,8 +21,10 @@ public class KwindoAlgorithm {
     public float minDailyProfit = 0;
     public float maxDailyProfit = 0;
     
-    public KwindoAlgorithm() {
-
+    private float balancePoint = 3;
+    
+    public KwindoAlgorithm(float balancePoint) {
+        this.balancePoint = balancePoint;
     }
 
     /**
@@ -46,7 +49,7 @@ public class KwindoAlgorithm {
             
             return result;
         }
-        int result = runSlopeAlgorithm(stockLevel);
+        int result = runAlgorithm(stockLevel);
 
         int futureStocks = result + ourStock;
         if(futureStocks > 100) 
@@ -59,7 +62,14 @@ public class KwindoAlgorithm {
         
         return result;
     }
-    
+
+    private int runAlgorithm(float stockLevel) {
+        float alpha = calcUpdateWalkingAverage(stockLevel);
+        if(alpha <= balancePoint && alpha >= -balancePoint)
+            return runFlatAlgorithm(stockLevel);
+        return runSlopeAlgorithm(alpha);
+    }
+
     private int sellEverythingAlgorithm() {
         return 0 - ourStock;
     }
@@ -96,11 +106,12 @@ public class KwindoAlgorithm {
     }
     
     LinkedList<Float> history = new LinkedList<>();
-    int runSlopeAlgorithm(float stockLevel) {
-        float alpha = calcUpdateWalkingAverage(stockLevel);
-        if (alpha > 3) 
+    int runSlopeAlgorithm(float alpha) {
+        if(alpha == -1) //not trustworthy walking average
+            return 0;
+        if (alpha > balancePoint) 
             return 100;
-        else if (alpha < -3) 
+        else if (alpha < -balancePoint) 
             return -100;
         return 0;
     }
@@ -110,13 +121,29 @@ public class KwindoAlgorithm {
         if(history.size() > 60)
             history.removeLast();
         if(history.size() < 10)
-            return 0;
+            return -1;
+        
+        float lastWindowAvg = 0;
+        for(int i = 0; i < history.size()-6; i++){
+            float windowAvg = avg(history.subList(i, i+5));
+            if(lastWindowAvg == 0) {
+                lastWindowAvg = windowAvg;
+                continue;
+            }
+            if(windowAvg - lastWindowAvg > balancePoint) {
+                history.clear();
+                return -1;
+            }
+        }
 
-        float curAvg = (float) history.subList(0, 4)
-                .stream().mapToDouble(f -> f).average().getAsDouble();
-        float longAvg = (float) history.subList(history.size()-6, history.size()-1)
-                .stream().mapToDouble(f -> f).average().getAsDouble();
+        float curAvg = avg(history.subList(0, 4));
+                
+        float longAvg = avg(history.subList(history.size()-6, history.size()-1));
 
         return curAvg - longAvg;
+    }
+    
+    float avg(List<Float> list){
+        return (float) list.stream().mapToDouble(f -> f).average().getAsDouble();
     }
 }

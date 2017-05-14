@@ -28,7 +28,7 @@ public class KwindoAlgorithmRunner {
         gui.setTitle("Kwindo");
         // End interface code
         
-        KwindoAlgorithm flatAlgorithm = new KwindoAlgorithm();
+        KwindoAlgorithm flatAlgorithm = new KwindoAlgorithm(7.5f);
 
 //        KwindoAlgorithm flatAlgorithm = new MockAlgorithm();
 //        KwindoAlgorithm flatAlgorithm = new SlopeAlgorithm();
