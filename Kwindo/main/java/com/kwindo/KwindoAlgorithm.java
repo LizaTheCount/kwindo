@@ -21,7 +21,7 @@ public class KwindoAlgorithm {
     public float minDailyProfit = 0;
     public float maxDailyProfit = 0;
     
-    private float balancePoint = 3;
+    private float balancePoint;
     
     public KwindoAlgorithm(float balancePoint) {
         this.balancePoint = balancePoint;
@@ -93,28 +93,29 @@ public class KwindoAlgorithm {
 
 
     float prevStockLevel;
-    float prevprevStockLevel;
+//    float prevprevStockLevel;
     int runFlatAlgorithm(float stockLevel) {
         if(secondCounter == 1) {
             prevStockLevel = stockLevel;
             return 0;
-        }else if(secondCounter == 2){
-            prevprevStockLevel = prevStockLevel;
-            prevStockLevel = stockLevel;
-            return 0;
         }
+//        else if(secondCounter == 2){
+//            prevprevStockLevel = prevStockLevel;
+//            prevStockLevel = stockLevel;
+//            return 0;
+//        }
 
         float diffPrev = stockLevel - prevStockLevel;
-        float diffPrevPrev = prevStockLevel - prevprevStockLevel;
+//        float diffPrevPrev = prevStockLevel - prevprevStockLevel;
         
-        prevprevStockLevel = prevStockLevel;
+//        prevprevStockLevel = prevStockLevel;
         prevStockLevel = stockLevel;
         
         if(diffPrev >= 0){
-            if(diffPrevPrev >= 0)
+//            if(diffPrevPrev >= 0)
                 return 100;
-            else
-                return 0;
+//            else
+//                return 0;
         }else
             return -100;
     }
