@@ -93,16 +93,30 @@ public class KwindoAlgorithm {
 
 
     float prevStockLevel;
+    float prevprevStockLevel;
     int runFlatAlgorithm(float stockLevel) {
         if(secondCounter == 1) {
             prevStockLevel = stockLevel;
             return 0;
+        }else if(secondCounter == 2){
+            prevprevStockLevel = prevStockLevel;
+            prevStockLevel = stockLevel;
+            return 0;
         }
 
-        float diff = stockLevel - prevStockLevel;
+        float diffPrev = stockLevel - prevStockLevel;
+        float diffPrevPrev = prevStockLevel - prevprevStockLevel;
+        
+        prevprevStockLevel = prevStockLevel;
         prevStockLevel = stockLevel;
-
-        return diff >= 0 ? 100 : -1 * 100;
+        
+        if(diffPrev >= 0){
+            if(diffPrevPrev >= 0)
+                return 100;
+            else
+                return 0;
+        }else
+            return -100;
     }
     
     LinkedList<Float> history = new LinkedList<>();

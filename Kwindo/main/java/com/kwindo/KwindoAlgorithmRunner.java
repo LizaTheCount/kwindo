@@ -36,7 +36,7 @@ public class KwindoAlgorithmRunner {
     static  public void run(File datadir) {
         long startTime = System.currentTimeMillis() / 1000L;
         KwindoAlgorithmRunner runner = new KwindoAlgorithmRunner();
-        KwindoAlgorithm flatAlgorithm = new KwindoAlgorithm(7.5f);
+        KwindoAlgorithm flatAlgorithm = new KwindoAlgorithm(7.6f);
 
         float flatAlgo = runner.runAlgorithm(flatAlgorithm, datadir);
 
@@ -49,6 +49,7 @@ public class KwindoAlgorithmRunner {
         float maxDaily = flatAlgorithm.maxDailyProfit;
         float minDaily = flatAlgorithm.minDailyProfit;
 
+        System.out.println(7.6f);
         System.out.println("Total profit: " + flatAlgo);
         System.out.println("Total Max Profit: " + maxProfit);
         System.out.println("Total Min Profit: " + minProfit);
@@ -102,6 +103,9 @@ public class KwindoAlgorithmRunner {
         String[] split = line.split(",");
         int result = -1*algorithm.processSecond(Float.parseFloat(split[1]));
         fw.write(split[0] + "," + (float)result  + "\n");
+        
+        if(algorithm.secondCounter % 300 == 0)
+            System.out.println(split[0] + "," + algorithm.profit + "," + Float.parseFloat(split[1]));
     }
 
     private Comparator<File> fileCom = new Comparator<File>() {
