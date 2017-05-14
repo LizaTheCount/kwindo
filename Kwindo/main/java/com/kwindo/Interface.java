@@ -18,6 +18,8 @@ public class Interface extends JFrame {
     private JLabel maxProfit;
     private JLabel minProfit;
 
+    private JButton restart;
+
 
     Interface() {
         setLayout(null);
@@ -31,18 +33,22 @@ public class Interface extends JFrame {
 
         totalProfLabel = new JLabel("Total profit: ...Loading");
         totalProfLabel.setForeground(Color.WHITE);
-        totalProfLabel.setBounds(150,200,300,50);
+        totalProfLabel.setBounds(150,240,300,50);
         add(totalProfLabel);
 
         maxProfit = new JLabel("Max profit: ...Loading");
         maxProfit.setForeground(Color.WHITE);
-        maxProfit.setBounds(150,250,300,50);
+        maxProfit.setBounds(150,290,300,50);
         add(maxProfit);
 
         minProfit = new JLabel("Min profit: ...Loading");
         minProfit.setForeground(Color.WHITE);
-        minProfit.setBounds(150,300,300,50);
+        minProfit.setBounds(150,340,300,50);
         add(minProfit);
+
+        restart = new JButton("Restart");
+        restart.setBounds(150, 440,80,20);
+        add(restart);
 
         img2 = new JLabel(image2);
         img2.setBounds(100,185,350,350);
