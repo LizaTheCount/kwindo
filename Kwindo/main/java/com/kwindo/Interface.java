@@ -81,6 +81,7 @@ public class Interface extends JFrame {
     }
 
     public void updateProfit(float totalProf, float minProf, float maxProf, float dailyMa, float dailyMi, long deltaTime) {
+         
         totalProfLabel.setText("Total profit:      " + totalProf);
         maxProfit.setText("Max profit:       " + maxProf);
         minProfit.setText("Min profit:        " + minProf);
