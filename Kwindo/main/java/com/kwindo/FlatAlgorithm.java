@@ -8,11 +8,7 @@ public class FlatAlgorithm extends KwindoAlgorithm {
     float prevStockLevel;
     
     //between 0 and 1 where 1 is ultimate risk
-    int riskNumber;
-
-    public FlatAlgorithm(int riskNumber) {
-        this.riskNumber = riskNumber;
-    }
+    int riskNumber = 100;
 
     @Override
     int runAlgorithm(float stockLevel) {
@@ -21,9 +17,9 @@ public class FlatAlgorithm extends KwindoAlgorithm {
             return 0;
         }
         
-        float diff = prevStockLevel - stockLevel;
+        float diff = stockLevel - prevStockLevel;
         prevStockLevel = stockLevel;
         
-        return diff > 0 ? riskNumber : -1 * riskNumber;
+        return diff >= 0 ? riskNumber : -1 * riskNumber;
     }
 }
