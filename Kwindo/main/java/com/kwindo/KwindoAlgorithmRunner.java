@@ -28,6 +28,9 @@ public class KwindoAlgorithmRunner {
         gui.setVisible(true);
         gui.setTitle("Kwindo");
         // End interface code
+        
+        KwindoAlgorithm flatAlgorithm = new KwindoAlgorithm();
+
 
         run(datadir);
 
@@ -35,7 +38,8 @@ public class KwindoAlgorithmRunner {
 
     static  public void run(File datadir) {
         KwindoAlgorithmRunner runner = new KwindoAlgorithmRunner();
-        KwindoAlgorithm flatAlgorithm = new FlatAlgorithm();
+        KwindoAlgorithm flatAlgorithm = new KwindoAlgorithm();
+
 //        KwindoAlgorithm flatAlgorithm = new MockAlgorithm();
 //        KwindoAlgorithm flatAlgorithm = new SlopeAlgorithm();
 
