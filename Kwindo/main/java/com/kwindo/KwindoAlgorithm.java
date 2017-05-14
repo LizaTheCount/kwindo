@@ -11,6 +11,10 @@ public abstract class KwindoAlgorithm {
     int ourStock = 0;
     
     public float profit = 0;
+    public float daileyProfit = 0;
+    public float maxProfit = 0;
+    public float minProfit = 0;
+    
     
     public KwindoAlgorithm() {
 
@@ -23,9 +27,9 @@ public abstract class KwindoAlgorithm {
         secondCounter++;
         
         if(dayEnd()) {
-//            System.out.println("End of day profit: " + profit);
-//            System.out.println("End of day our stock: " + ourStock);
-            return sellbuyTo0(stockLevel);
+            int result =  sellbuyTo0(stockLevel);
+            daileyProfit = 0;
+            return result;
         }
         int result = runAlgorithm(stockLevel);
 
@@ -57,5 +61,10 @@ public abstract class KwindoAlgorithm {
 
     private void updateProfilt(int stockBuySellAmount, float stockLevel) {
         profit += stockBuySellAmount * stockLevel;
+        daileyProfit += stockBuySellAmount * stockLevel;
+        if(profit > maxProfit)
+            maxProfit = profit;
+        if(profit < minProfit)
+            minProfit = profit;
     }
 }

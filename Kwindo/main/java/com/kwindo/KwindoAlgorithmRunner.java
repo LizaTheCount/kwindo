@@ -18,9 +18,14 @@ public class KwindoAlgorithmRunner {
         
         KwindoAlgorithmRunner runner = new KwindoAlgorithmRunner();
 
+        FlatAlgorithm flatAlgorithm = new FlatAlgorithm(100);
+
         System.out.println("Total profit: " +
-                runner.runAlgorithm(new FlatAlgorithm(100), datadir)
+                runner.runAlgorithm(flatAlgorithm, datadir)
         );
+
+        System.out.println("Max Profit: " + flatAlgorithm.maxProfit);
+        System.out.println("Min Profit: " + flatAlgorithm.minProfit);
         
     }
     
