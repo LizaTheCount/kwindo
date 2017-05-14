@@ -34,13 +34,16 @@ public class KwindoAlgorithmRunner {
     }
 
     static  public void run(File datadir) {
+        long startTime = System.currentTimeMillis() / 1000L;
         KwindoAlgorithmRunner runner = new KwindoAlgorithmRunner();
         KwindoAlgorithm flatAlgorithm = new KwindoAlgorithm(7.5f);
 
-//        KwindoAlgorithm flatAlgorithm = new MockAlgorithm();
-//        KwindoAlgorithm flatAlgorithm = new SlopeAlgorithm();
-
         float flatAlgo = runner.runAlgorithm(flatAlgorithm, datadir);
+
+        long endTime = System.currentTimeMillis() / 1000L;
+
+        long delta = endTime - startTime;
+
         float maxProfit = flatAlgorithm.maxProfit;
         float minProfit = flatAlgorithm.minProfit;
         float maxDaily = flatAlgorithm.maxDailyProfit;
@@ -52,7 +55,7 @@ public class KwindoAlgorithmRunner {
         System.out.println("Daily Max Profit: " + maxDaily);
         System.out.println("Daily Min Profit: " + minDaily);
 
-        gui.updateProfit(flatAlgo,minProfit,maxProfit,maxDaily,minDaily);
+        gui.updateProfit(flatAlgo, minProfit, maxProfit, maxDaily, minDaily, delta);
 
     }
 
