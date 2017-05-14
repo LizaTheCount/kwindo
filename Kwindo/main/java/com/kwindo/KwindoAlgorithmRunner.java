@@ -30,7 +30,7 @@ public class KwindoAlgorithmRunner {
         
         KwindoAlgorithmRunner runner = new KwindoAlgorithmRunner();
 
-        KwindoAlgorithm flatAlgorithm = new FlatAlgorithm();
+        KwindoAlgorithm flatAlgorithm = new KwindoAlgorithm();
 //        KwindoAlgorithm flatAlgorithm = new MockAlgorithm();
 //        KwindoAlgorithm flatAlgorithm = new SlopeAlgorithm();
 
