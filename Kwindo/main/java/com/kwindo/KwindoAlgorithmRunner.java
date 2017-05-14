@@ -1,5 +1,6 @@
 package com.kwindo;
 
+import javax.swing.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -12,6 +13,17 @@ public class KwindoAlgorithmRunner {
     public static final SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static void main(String[] args) {
+
+        //Interface code
+        new Interface();
+        Interface gui = new Interface();
+        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gui.setSize(540,600);
+        gui.setVisible(true);
+        gui.setTitle("Kwindo");
+        // End interface code
+
+
         if(args.length == 0)
             throw new IllegalArgumentException("Must supply data directory");
         File datadir = new File(args[0]);
@@ -20,17 +32,20 @@ public class KwindoAlgorithmRunner {
 
         FlatAlgorithm flatAlgorithm = new FlatAlgorithm(100);
 
-        System.out.println("Total profit: " +
-                runner.runAlgorithm(flatAlgorithm, datadir)
-        );
+        float flatAlgo = runner.runAlgorithm(flatAlgorithm, datadir);
+        float maxProfit = flatAlgorithm.maxProfit;
+        float minProfit = flatAlgorithm.minProfit;
 
-        System.out.println("Max Profit: " + flatAlgorithm.maxProfit);
-        System.out.println("Min Profit: " + flatAlgorithm.minProfit);
+        System.out.println("Total profit: " + flatAlgo);
+        System.out.println("Max Profit: " + maxProfit);
+        System.out.println("Min Profit: " + minProfit);
+
+        gui.updateProfit(flatAlgo,minProfit,maxProfit);
         
     }
     
     private KwindoAlgorithm algorithm;
-    private float runAlgorithm(KwindoAlgorithm algorithm, File datadir) {
+    public float runAlgorithm(KwindoAlgorithm algorithm, File datadir) {
         this.algorithm = algorithm;
         File[] datafiles = datadir.listFiles();
         if(datafiles == null)
