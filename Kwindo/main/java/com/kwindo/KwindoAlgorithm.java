@@ -11,10 +11,12 @@ public abstract class KwindoAlgorithm {
     int ourStock = 0;
     
     public float profit = 0;
-    public float daileyProfit = 0;
     public float maxProfit = 0;
     public float minProfit = 0;
     
+    public float daileyProfit = 0;
+    public float minDaileyProfit = 0;
+    public float maxDaileyProfit = 0;
     
     public KwindoAlgorithm() {
 
@@ -27,8 +29,19 @@ public abstract class KwindoAlgorithm {
         secondCounter++;
         
         if(dayEnd()) {
-            int result =  sellbuyTo0(stockLevel);
+            int result =  sellEverythingAlgorithm();
+            ourStock += result;
+            updateProfilt(result, stockLevel);
+            
+
+            if(daileyProfit > maxDaileyProfit)
+                maxDaileyProfit = daileyProfit;
+            if(daileyProfit < minDaileyProfit)
+                minDaileyProfit = daileyProfit;
+            
             daileyProfit = 0;
+            
+            
             return result;
         }
         int result = runAlgorithm(stockLevel);
@@ -47,12 +60,8 @@ public abstract class KwindoAlgorithm {
 
     abstract int runAlgorithm(float stockLevel);
 
-    private int sellbuyTo0(float stockLevel) {
-        int result = 0 - ourStock;
-        ourStock +=result;
-
-        updateProfilt(result, stockLevel);
-        return result;
+    private int sellEverythingAlgorithm() {
+        return 0 - ourStock;
     }
 
     private boolean dayEnd() {
@@ -60,11 +69,15 @@ public abstract class KwindoAlgorithm {
     }
 
     private void updateProfilt(int stockBuySellAmount, float stockLevel) {
-        profit += stockBuySellAmount * stockLevel;
-        daileyProfit += stockBuySellAmount * stockLevel;
+        profit += calcProfit(stockBuySellAmount, stockLevel);
+        daileyProfit += calcProfit(stockBuySellAmount, stockLevel);
         if(profit > maxProfit)
             maxProfit = profit;
         if(profit < minProfit)
             minProfit = profit;
+    }
+    
+    private float calcProfit(int stockBuySellAmount, float stockLevel){
+        return (-1*stockBuySellAmount) * stockLevel;
     }
 }

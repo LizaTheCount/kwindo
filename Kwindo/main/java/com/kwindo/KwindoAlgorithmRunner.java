@@ -18,14 +18,18 @@ public class KwindoAlgorithmRunner {
         
         KwindoAlgorithmRunner runner = new KwindoAlgorithmRunner();
 
-        FlatAlgorithm flatAlgorithm = new FlatAlgorithm(100);
+        KwindoAlgorithm flatAlgorithm = new FlatAlgorithm();
+//        KwindoAlgorithm flatAlgorithm = new MockAlgorithm();
+//        KwindoAlgorithm flatAlgorithm = new SlopeAlgorithm();
 
         System.out.println("Total profit: " +
                 runner.runAlgorithm(flatAlgorithm, datadir)
         );
 
-        System.out.println("Max Profit: " + flatAlgorithm.maxProfit);
-        System.out.println("Min Profit: " + flatAlgorithm.minProfit);
+        System.out.println("Total Max Profit: " + flatAlgorithm.maxProfit);
+        System.out.println("Total Min Profit: " + flatAlgorithm.minProfit);
+        System.out.println("Dailey Max Profit: " + flatAlgorithm.maxDaileyProfit);
+        System.out.println("Dailey Min Profit: " + flatAlgorithm.minDaileyProfit);
         
     }
     
@@ -38,7 +42,7 @@ public class KwindoAlgorithmRunner {
 
         Arrays.stream(datafiles)
                 .sorted(fileCom)
-                .filter(f -> f.getName().endsWith("prices.csv"))
+                .filter(f -> f.getName().endsWith("_prices.csv"))
                 .forEach(this::handleFile);
         return algorithm.profit;
     }
@@ -70,7 +74,7 @@ public class KwindoAlgorithmRunner {
         if(line == null || line.startsWith("times,price") || line.trim().isEmpty())
             return;
         String[] split = line.split(",");
-        int result = algorithm.processSecond(Float.parseFloat(split[1]));
+        int result = -1*algorithm.processSecond(Float.parseFloat(split[1]));
         fw.write(split[0] + "," + (float)result  + "\n");
     }
 
