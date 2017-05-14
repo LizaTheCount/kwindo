@@ -22,6 +22,7 @@ public class Interface extends JFrame {
     private JLabel minProfit;
     private JLabel dailyMin;
     private JLabel dailyMax;
+    private JLabel timeTaken;
 
     private JButton restart;
 
@@ -61,8 +62,13 @@ public class Interface extends JFrame {
         dailyMin.setBounds(150, 360, 300, 50);
         add(dailyMin);
 
+        timeTaken = new JLabel("Trading took ... seconds.");
+        timeTaken.setForeground(Color.WHITE);
+        timeTaken.setBounds(150, 400, 300, 50);
+        add(timeTaken);
+
         restart = new JButton("Restart");
-        restart.setBounds(150, 440, 80, 20);
+        restart.setBounds(150, 460, 80, 20);
         restart.addActionListener(new Click());
         add(restart);
 
@@ -74,12 +80,13 @@ public class Interface extends JFrame {
         c.setBackground(Color.darkGray);
     }
 
-    public void updateProfit(float totalProf, float minProf, float maxProf, float dailyMa, float dailyMi) {
+    public void updateProfit(float totalProf, float minProf, float maxProf, float dailyMa, float dailyMi, long deltaTime) {
         totalProfLabel.setText("Total profit:      " + totalProf);
         maxProfit.setText("Max profit:       " + maxProf);
         minProfit.setText("Min profit:        " + minProf);
         dailyMax.setText("Daily Max Profit:    " + dailyMa);
         dailyMin.setText("Daily Min Profit:     " + dailyMi);
+        timeTaken.setText("Trading took " + deltaTime + " seconds");
     }
 
     public void resetGUI() {
@@ -98,11 +105,12 @@ public class Interface extends JFrame {
         dailyMin.setText("Daily Min Profit:     ...Loading");
         dailyMin.paintImmediately(dailyMin.getVisibleRect());
 
+        timeTaken = new JLabel("Trading took ... seconds.");
+        timeTaken.paintImmediately(timeTaken.getVisibleRect());
     }
 
     class Click implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-    //        System.out.println("Click!");
             resetGUI();
             String[] args = {"C:\\Users\\liza__000\\Desktop\\Hackathons\\HackDelft\\dataset"};
             KwindoAlgorithmRunner.run(new File(args[0]));
