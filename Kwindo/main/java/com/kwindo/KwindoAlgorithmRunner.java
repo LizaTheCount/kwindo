@@ -10,6 +10,8 @@ import java.util.*;
  */
 public class KwindoAlgorithmRunner {
 
+    static Interface gui;
+
     public static final SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static void main(String[] args) {
@@ -17,17 +19,22 @@ public class KwindoAlgorithmRunner {
         if(args.length == 0)
             throw new IllegalArgumentException("Must supply data directory");
         File datadir = new File(args[0]);
-        
-        KwindoAlgorithmRunner runner = new KwindoAlgorithmRunner();
+
 
         //Interface code
-        Interface gui = new Interface();
+        gui = new Interface();
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setSize(540,600);
         gui.setVisible(true);
         gui.setTitle("Kwindo");
         // End interface code
 
+        run(datadir);
+
+    }
+
+    static  public void run(File datadir) {
+        KwindoAlgorithmRunner runner = new KwindoAlgorithmRunner();
         KwindoAlgorithm flatAlgorithm = new FlatAlgorithm();
 //        KwindoAlgorithm flatAlgorithm = new MockAlgorithm();
 //        KwindoAlgorithm flatAlgorithm = new SlopeAlgorithm();
@@ -45,9 +52,9 @@ public class KwindoAlgorithmRunner {
         System.out.println("Daily Min Profit: " + minDaily);
 
         gui.updateProfit(flatAlgo,minProfit,maxProfit,maxDaily,minDaily);
-        
+
     }
-    
+
     private KwindoAlgorithm algorithm;
     public float runAlgorithm(KwindoAlgorithm algorithm, File datadir) {
         this.algorithm = algorithm;
