@@ -17,8 +17,8 @@ public class KwindoAlgorithm {
     public float minProfit = 0;
     
     public float daileyProfit = 0;
-    public float minDaileyProfit = 0;
-    public float maxDaileyProfit = 0;
+    public float minDailyProfit = 0;
+    public float maxDailyProfit = 0;
     
     public KwindoAlgorithm() {
 
@@ -36,10 +36,10 @@ public class KwindoAlgorithm {
             updateProfilt(result, stockLevel);
             
 
-            if(daileyProfit > maxDaileyProfit)
-                maxDaileyProfit = daileyProfit;
-            if(daileyProfit < minDaileyProfit)
-                minDaileyProfit = daileyProfit;
+            if(daileyProfit > maxDailyProfit)
+                maxDailyProfit = daileyProfit;
+            if(daileyProfit < minDailyProfit)
+                minDailyProfit = daileyProfit;
             
             daileyProfit = 0;
             
