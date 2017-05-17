@@ -49,12 +49,12 @@ public class KwindoAlgorithmRunner {
         float maxDaily = flatAlgorithm.maxDailyProfit;
         float minDaily = flatAlgorithm.minDailyProfit;
 
-        System.out.println(7.6f);
-        System.out.println("Total profit: " + flatAlgo);
-        System.out.println("Total Max Profit: " + maxProfit);
-        System.out.println("Total Min Profit: " + minProfit);
-        System.out.println("Daily Max Profit: " + maxDaily);
-        System.out.println("Daily Min Profit: " + minDaily);
+        //System.out.println(7.6f);
+//        System.out.println("Total profit: " + flatAlgo);
+//        System.out.println("Total Max Profit: " + maxProfit);
+//        System.out.println("Total Min Profit: " + minProfit);
+//        System.out.println("Daily Max Profit: " + maxDaily);
+//        System.out.println("Daily Min Profit: " + minDaily);
 
         gui.updateProfit(flatAlgo, minProfit, maxProfit, maxDaily, minDaily, delta);
 
@@ -104,8 +104,8 @@ public class KwindoAlgorithmRunner {
         int result = -1*algorithm.processSecond(Float.parseFloat(split[1]));
         fw.write(split[0] + "," + (float)result  + "\n");
         
-        if(algorithm.secondCounter % 300 == 0)
-            System.out.println(split[0] + "," + algorithm.profit + "," + Float.parseFloat(split[1]));
+//        if(algorithm.secondCounter % 300 == 0)
+//            System.out.println(split[0] + "," + algorithm.profit + "," + Float.parseFloat(split[1]));
     }
 
     private Comparator<File> fileCom = new Comparator<File>() {
