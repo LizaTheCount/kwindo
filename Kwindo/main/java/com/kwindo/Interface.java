@@ -114,7 +114,7 @@ public class Interface extends JFrame {
         public void actionPerformed(ActionEvent e) {
             resetGUI();
             String[] args = {"C:\\Users\\liza__000\\Desktop\\Hackathons\\HackDelft\\dataset"};
-            KwindoAlgorithmRunner.run(new File(args[0]));
+            Main.run(new File(args[0]));
         }
     }
 }

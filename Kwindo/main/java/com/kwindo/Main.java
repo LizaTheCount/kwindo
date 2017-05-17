@@ -7,21 +7,25 @@ import java.util.*;
 
 /**
  * Created by Sijmen on 13-5-2017.
+ * Updated by Liza and Vincent 17-5-2017.
  */
-public class KwindoAlgorithmRunner {
+public class Main {
 
     static Interface gui;
 
     public static final SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+    private KwindoAlgorithm algorithm;
+
     public static void main(String[] args) {
 
-        if(args.length == 0)
+        if(args.length == 0) {
             throw new IllegalArgumentException("Must supply data directory");
-        File datadir = new File(args[0]);
+        }
+        File datadir = new File(args[0]); //Directory of all files in the supplied path to directory
 
 
-        //Interface code
+        // Interface code
         gui = new Interface();
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setSize(540,600);
@@ -34,11 +38,12 @@ public class KwindoAlgorithmRunner {
     }
 
     static  public void run(File datadir) {
-        long startTime = System.currentTimeMillis() / 1000L;
-        KwindoAlgorithmRunner runner = new KwindoAlgorithmRunner();
+        long startTime = System.currentTimeMillis() / 1000L;  // Divide by 1000 to get the amount of seconds since January 1st, 1970
+        Main runner = new Main();
+        KwindoAlgorithmRunner kwindoRunner = new KwindoAlgorithmRunner();
         KwindoAlgorithm flatAlgorithm = new KwindoAlgorithm(7.6f);
 
-        float flatAlgo = runner.runAlgorithm(flatAlgorithm, datadir);
+        float result = kwindoRunner.runAlgorithm(flatAlgorithm, datadir);
 
         long endTime = System.currentTimeMillis() / 1000L;
 
@@ -56,66 +61,23 @@ public class KwindoAlgorithmRunner {
 //        System.out.println("Daily Max Profit: " + maxDaily);
 //        System.out.println("Daily Min Profit: " + minDaily);
 
-        gui.updateProfit(flatAlgo, minProfit, maxProfit, maxDaily, minDaily, delta);
+        gui.updateProfit(result, minProfit, maxProfit, maxDaily, minDaily, delta);
 
     }
 
-    private KwindoAlgorithm algorithm;
-    public float runAlgorithm(KwindoAlgorithm algorithm, File datadir) {
-        this.algorithm = algorithm;
-        File[] datafiles = datadir.listFiles();
-        if(datafiles == null)
-            throw new IllegalArgumentException("Datafiles not found!");
+}
 
-        Arrays.stream(datafiles)
-                .sorted(fileCom)
-                .filter(f -> f.getName().endsWith("_prices.csv"))
-                .forEach(this::handleFile);
-        return algorithm.profit;
-    }
-    
-    private void handleFile(File file) {
-        File out = new File(file.getParent() + "\\" + file.getName().substring(0, 11) + "trades.csv");
-        if(out.exists())
-            out.delete();
-        try {
-            out.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try(FileWriter fw = new FileWriter(out)) {
-            fw.write("times,trades\n");
-            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                     handleLine(fw, line);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-    }
-    
-    private void handleLine(FileWriter fw, String line) throws IOException {
-        if(line == null || line.startsWith("times,price") || line.trim().isEmpty())
-            return;
-        String[] split = line.split(",");
-        int result = -1*algorithm.processSecond(Float.parseFloat(split[1]));
-        fw.write(split[0] + "," + (float)result  + "\n");
-        
-//        if(algorithm.secondCounter % 300 == 0)
-//            System.out.println(split[0] + "," + algorithm.profit + "," + Float.parseFloat(split[1]));
-    }
+class KwindoAlgorithmRunner {
+    private  KwindoAlgorithm algorithm;
 
-    private Comparator<File> fileCom = new Comparator<File>() {
+    private Comparator<File> fileCom = new Comparator<File>() { // This is a variable. NOT a method.
         @Override
         public int compare(File o1, File o2) {
             int n1 = extractNumber(o1.getName());
             int n2 = extractNumber(o2.getName());
             return n1 - n2;
         }
-    
+
         private int extractNumber(String name) {
             int i;
             try {
@@ -130,5 +92,53 @@ public class KwindoAlgorithmRunner {
             return i;
         }
     };
-    
+
+    public float runAlgorithm(KwindoAlgorithm algorithm, File datadir) {
+        this.algorithm = algorithm;
+        File[] datafiles = datadir.listFiles();
+        if(datafiles == null) {
+            throw new IllegalArgumentException("Datafiles not found!");
+        }
+
+        Arrays.stream(datafiles)
+                .sorted(fileCom)
+                .filter(f -> f.getName().endsWith("_prices.csv"))
+                .forEach(this::handleFile);
+        return algorithm.profit;
+    }
+
+    private void handleFile(File file) {
+        File out = new File(file.getParent() + "\\" + file.getName().substring(0, 11) + "trades.csv");
+        if(out.exists())
+            out.delete();
+        try {
+            out.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try(FileWriter fw = new FileWriter(out)) {
+            fw.write("times,trades\n");
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    handleLine(fw, line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    private void handleLine(FileWriter fw, String line) throws IOException {
+        if(line == null || line.startsWith("times,price") || line.trim().isEmpty())
+            return;
+        String[] split = line.split(",");
+        int result = -1*algorithm.processSecond(Float.parseFloat(split[1]));
+        fw.write(split[0] + "," + (float)result  + "\n");
+
+//        if(algorithm.secondCounter % 300 == 0)
+//            System.out.println(split[0] + "," + algorithm.profit + "," + Float.parseFloat(split[1]));
+    }
+
 }
